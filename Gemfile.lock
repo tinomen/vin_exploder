@@ -1,0 +1,36 @@
+PATH
+  remote: .
+  specs:
+    vin_exploder (0.1.0)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    amalgalite (1.1.2)
+      arrayfields (~> 4.7.4)
+      fastercsv (~> 1.5.4)
+    arrayfields (4.7.4)
+    diff-lcs (1.1.2)
+    fastercsv (1.5.4)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.3)
+    rspec-expectations (2.6.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.6.0)
+    sequel (3.24.1)
+    simplecov (0.4.2)
+      simplecov-html (~> 0.4.4)
+    simplecov-html (0.4.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  amalgalite
+  rspec (>= 2.6.0)
+  sequel
+  simplecov
+  vin_exploder!
