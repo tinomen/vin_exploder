@@ -1,0 +1,32 @@
+h1. VinExploder
+
+A ruby library for retrieving and caching Vehicle Identification Number (VIN) lookups. 
+
+h2. How to install
+
+*Bundler*
+
+<pre>
+  gem vin_exploder
+</pre>
+
+*Rubygems*
+
+<pre>
+  gem install vin_exploder
+</pre>
+
+h2. How to use
+
+Using the vin exploder will require a decoding service adapter. Thankfully one is available in the Vinquery "gem":http://github.com/tinomen/vinquery
+
+<pre>
+  require 'vin_exploder'
+  require 'vinquery/vin_exploder/adapter'
+  
+  VinExploder.config.adapter :vinquery, {:url => 'VINQUERY_URL', :access_code => 'ACCESS_CODE', :report_type => 'REPORT_TYPE'}
+  vin_explosion = VinExploder.get('1FTWX31R19EB18840')
+  
+  vin_explosion.valid? # true
+  vin_explosion.make   # Ford
+</pre>
