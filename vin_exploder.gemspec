@@ -32,7 +32,6 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new("1.2.0") then
-      # s.add_runtime_dependency     "nokogiri",     [">= 1.4.4"]
       s.add_development_dependency "rspec", [">= 2.6.0"]
       s.add_development_dependency "simplecov"
       s.add_development_dependency "sequel"
@@ -40,9 +39,9 @@ Gem::Specification.new do |s|
       s.add_development_dependency "activerecord", [">= 3.0.0"]
       
     else
-      # s.add_dependency "nokogiri",     [">= 1.4.4"]
+      
     end
   else
-    # s.add_dependency "nokogiri",     [">= 1.4.4"]
+    
   end
 end
