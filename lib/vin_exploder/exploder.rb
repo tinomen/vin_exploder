@@ -11,14 +11,19 @@ module VinExploder
       @adapter = adapter
     end
     
+    # Get vin Explosion.
+    #
+    # == Parameters
+    # vin:: vehicle identification number 
+    #
+    # == Return
+    # An Explosion object containing the decoded vin attributes
     def get(vin)
       hash = @cache.fetch(vin) do
-        #get from vender
-        vender_hash = @adapter.get(vin)
-        # normalize
-        @adapter.normalize(vender_hash)
+        # get from vender adapter
+        @adapter.explode(vin)
       end
-      VinExploder::Explosion.new vin, hash
+      Explosion.new vin, hash, hash.delete(:errors)
     end
     
   end

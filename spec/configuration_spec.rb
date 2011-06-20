@@ -6,9 +6,9 @@ module VinExploder
 describe Configuration do
   
   describe '#cache_store' do
-    it 'should setup the default store when set to :disable' do
+    it 'should return nil if no cache is set' do
       c = Configuration.new
-      c.cache_store.new.class.should == VinExploder::Cache::Store
+      c.cache_store.should == nil
     end
     
     it 'should convert a symbol to a camel case constant within the VinExploder::Cache scope' do

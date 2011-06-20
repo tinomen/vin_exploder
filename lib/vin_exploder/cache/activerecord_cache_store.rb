@@ -4,6 +4,11 @@ require 'Base64'
 module VinExploder
 module Cache
   
+  # A VinExploder cache adapter using ActiveRecord for saving the decoded vin attributes.
+  #
+  # this store assumes a model with 2 attributes:
+  # - *key*: the first 8, 10th and 11th characters of the vin
+  # - *data*: A hash of the decoded vin attributes
   class ActiveRecordCacheStore < Store
     
     def initialize(options = {})
@@ -14,12 +19,12 @@ module Cache
     def read(vin)
       key = make_vin_cache_key(vin)
       obj = @model.find_by_key(key)
-      obj.all unless obj.nil?
+      obj.data unless obj.nil?
     end
     
     def write(vin, hash)
       key = make_vin_cache_key(vin)
-      obj = @model.new hash
+      obj = @model.new :key => key, :data => hash
       obj.save
       hash
     end

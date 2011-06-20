@@ -4,6 +4,11 @@ require 'Base64'
 module VinExploder
 module Cache
   
+  # A VinExploder cache adapter using Sequel for saving the decoded vin attributes.
+  #
+  # this store assumes there are 2 columns on the table:
+  # - *key*: the first 8, 10th and 11th characters of the vin
+  # - *data*: A hash of the decoded vin attributes
   class SequelCacheStore < Store
     
     def initialize(options = {})
@@ -14,12 +19,12 @@ module Cache
     def read(vin)
       key = make_vin_cache_key(vin)
       data = @connection[:vins].where(:key => key).first
-      Marshal.load(Base64.decode64(data[:data])) unless data.nil?
+      Marshal.load(data[:data]) unless data.nil?
     end
     
     def write(vin, hash)
       key = make_vin_cache_key(vin)
-      @connection[:vins].insert(:key => key, :data => Base64.encode64(Marshal.dump(hash)))
+      @connection[:vins].insert(:key => key, :data => Marshal.dump(hash))
       hash
     end
     

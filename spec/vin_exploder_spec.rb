@@ -26,8 +26,7 @@ describe Exploder do
   describe '#get' do
     it "should get a vin Explosion" do
       a = double("Adapter")
-      a.should_receive(:get) { {} }
-      a.should_receive(:normalize) { {} }
+      a.should_receive(:explode) { {} }
       e = Exploder.new(a)
       ex = e.get('VIN')
       ex.class.should == VinExploder::Explosion 
@@ -39,8 +38,7 @@ describe Exploder do
   describe "VinExploder#explode" do
     it "should return an Explosion object" do
       ta = VinExploder::Decode::TestAdapter.new
-      ta.should_receive(:get) { {} }
-      ta.should_receive(:normalize) { {} }
+      ta.should_receive(:explode) { {} }
       VinExploder::Decode::TestAdapter.should_receive(:new){ ta }
       
       VinExploder.config.adapter :test_adapter

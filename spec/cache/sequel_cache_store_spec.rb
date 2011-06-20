@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'amalgalite'
+require 'sqlite3'
 require 'sequel'
 require 'vin_exploder/cache'
 require 'vin_exploder/cache/sequel_cache_store'
@@ -10,7 +10,7 @@ module Cache
 describe SequelCacheStore do
   
   before(:all) do
-    @db_config = {:adapter => "amalgalite"}
+    @db_config = {:adapter => "sqlite"}
     @store = SequelCacheStore.new @db_config
     @store.connection.create_table(:vins) do
       String :key, :unique=>true, :size=>10
@@ -36,9 +36,6 @@ describe SequelCacheStore do
   end
   
   it "should fetch and cache new vins" do
-    hash = @store.read(:fake_vin_number)
-    hash.should be_nil
-    
     hash = @store.fetch(:fake_vin_number) do
       {:vin => 'fake_vin_number', :make => 'Ford'}
     end

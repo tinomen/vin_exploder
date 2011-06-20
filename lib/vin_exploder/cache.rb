@@ -34,13 +34,13 @@ module VinExploder
       #
       def fetch(vin)
         if block_given?
-          explosion = read(vin)
-          if explosion.nil?
-            vin_attrs = yield 
-            write(vin, vin_attrs)
+          hash = read(vin)
+          if hash.nil?
+            hash = yield 
+            write(vin, hash)
           end
         else
-          read(vin)
+          hash = read(vin)
         end
       end
     
@@ -52,8 +52,8 @@ module VinExploder
       end
     
       # Writes the value to the cache, with the key.
-      def write(vin, vin_attrs)
-        vin_attrs
+      def write(vin, hash)
+        hash
       end
       
       # Deletes an entry in the cache. Returns +true+ if an entry is deleted.
@@ -66,7 +66,7 @@ module VinExploder
       # the cache key for vins should be based on characters 0-8, 10-11. 
       # Position 9 is a checksum value and should not be used in the key.
       def make_vin_cache_key(vin)
-        key = vin.slice(0,9)
+        key = vin.slice(0,8)
         key << vin.slice(10,2)
       end
     

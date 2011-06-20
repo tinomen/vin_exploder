@@ -58,8 +58,10 @@ To save on the cost of looking up a VIN multiple times setup a cache
   
   # tell vin_exploder to use the Sequel based cache store adapter and pass in the connection config
   VinExploder.config.cache_store :sequel_cache_store, "msql://localhost:3896/vin_cache"
+  
   # tell vin_exploder to use the Vinquery.com adapter and pass it's required config
   VinExploder.config.adapter :vinquery, {:url => 'VINQUERY_URL', :access_code => 'ACCESS_CODE', :report_type => 'REPORT_TYPE'}
+  
   # request the decoded VIN data
   vin_explosion = VinExploder.get('1FTWX31R19EB18840')
   

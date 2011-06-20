@@ -6,7 +6,7 @@ module VinExploder
     attr_accessor :cache_options, :adapter_options
     
     def initialize
-      @cache_store = :disabled
+      @cache_store = nil
       @cache_options = {}
       @adapter = nil
       @adapter_options = {}
@@ -15,8 +15,6 @@ module VinExploder
     def cache_store(*args)
       if args.empty?
         case @cache_store
-        when :disabled
-          VinExploder::Cache::Store
         when Symbol
           VinExploder::Cache.const_get(@cache_store.to_s.split('_').map{|s| s.capitalize }.join)
         else
