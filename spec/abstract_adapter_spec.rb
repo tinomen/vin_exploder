@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'vin_exploder/adapter'
+require 'vin_exploder/abstract_adapter'
 
 module VinExploder
 module Decode
