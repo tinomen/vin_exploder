@@ -17,6 +17,7 @@ module VinExploder
   
 end
 
+require 'vin_exploder/configuration'
 require 'vin_exploder/cache'
 require 'vin_exploder/explosion'
 require 'vin_exploder/exploder'
