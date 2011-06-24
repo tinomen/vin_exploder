@@ -1,29 +1,22 @@
 require 'spec_helper'
-require 'sqlite3'
-require 'sequel'
 require 'vin_exploder/cache'
-require 'vin_exploder/cache/sequel_cache_store'
+require 'vin_exploder/cache/couchrest_cache_store'
 
 module VinExploder
 module Cache
 
-describe SequelCacheStore do
-  
-  before(:all) do
-    @db_config = {:adapter => "sqlite"}
-    @store = SequelCacheStore.new @db_config
-    @store.connection.create_table(:vins) do
-      String :key, :unique=>true, :size=>10
-      String :data, :null=>false, :text=>true
-    end
-  end
-  
-  after(:each) do
-    @store.connection[:vins].truncate
+describe CouchrestCacheStore do
+  before(:each) do
+    db_config = {:host => 'http://127.0.0.1:5984', :db_name => 'vindecoder_test'}
+    srv = CouchRest.new db_config[:host]
+    @db = srv.database(db_config[:db_name])
+    @db.delete! if @db rescue nil
+    
+    @store = CouchrestCacheStore.new(db_config)
   end
   
   it "should initialize" do
-    @store.class.should == SequelCacheStore
+    @store.class.should == CouchrestCacheStore
   end
   
   it "should read and write a hash" do

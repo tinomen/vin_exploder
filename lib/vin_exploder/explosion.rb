@@ -25,16 +25,6 @@ module VinExploder
     end
     alias :success? :valid?
     
-    # def _dump(level=-1)
-    #   [@vin, @all.to_yaml].join('^')
-    # end
-    # 
-    # def self._load(args)
-    #   a = *args.split('^')
-    #   hash = YAML.load(a[1])
-    #   new(a[0], hash)
-    # end
-    
   end
   
 end

@@ -13,25 +13,25 @@ module Cache
     
     def initialize(options = {})
       super
-      @model = options[:model_class]
+      @model_class = options[:model_class]
     end
     
     def read(vin)
       key = make_vin_cache_key(vin)
-      obj = @model.find_by_key(key)
+      obj = @model_class.find_by_key(key)
       obj.data unless obj.nil?
     end
     
     def write(vin, hash)
       key = make_vin_cache_key(vin)
-      obj = @model.new :key => key, :data => hash
+      obj = @model_class.new :key => key, :data => hash
       obj.save
       hash
     end
     
     def delete(vin)
       key = make_vin_cache_key(vin)
-      obj = @model.find_by_key(key)
+      obj = @model_class.find_by_key(key)
       deleted = obj.delete()
       !deleted.nil?
     end
