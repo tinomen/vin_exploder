@@ -23,11 +23,12 @@ describe Store do
   
   describe '#fetch' do
     it 'should execute the block and pass through #write' do
+      result = {'vin' => 'EXPLODED_VIN'}
       store = Store.new
-      store.should_receive(:write).with('VIN', 'EXPLODED_VIN').exactly(1).times { 'EXPLODED_VIN' }
+      store.should_not_receive(:write).exactly(1).times
       store.fetch('VIN') do
-        'EXPLODED_VIN'
-      end.should == 'EXPLODED_VIN'
+        result
+      end.should == result
     end
     
     it 'should return nil with no block' do

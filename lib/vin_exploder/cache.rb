@@ -33,14 +33,12 @@ module VinExploder
       #   cache.fetch("VIN_NUMBER_2")   # => {:make => 'Dodge', :model => '1500'}
       #
       def fetch(vin)
+        hash = read(vin)
         if block_given?
-          hash = read(vin)
           if hash.nil?
             hash = yield 
             write(vin, hash) unless hash.empty? || (hash[:errors] && !hash[:errors].empty?)
           end
-        else
-          hash = read(vin)
         end
         hash
       end
