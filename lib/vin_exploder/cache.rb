@@ -37,11 +37,12 @@ module VinExploder
           hash = read(vin)
           if hash.nil?
             hash = yield 
-            write(vin, hash)
+            write(vin, hash) unless hash.empty? || (hash[:errors] && !hash[:errors].empty?)
           end
         else
           hash = read(vin)
         end
+        hash
       end
     
       # Fetches VIN data from the cache, using the given key. If VIN has
@@ -67,7 +68,13 @@ module VinExploder
       # Position 9 is a checksum value and should not be used in the key.
       def make_vin_cache_key(vin)
         key = vin.slice(0,8)
-        key << vin.slice(10,2)
+        key << vin.slice(9,2)
+      end
+      
+      def symbolize_result_hash(hash)
+        new_hash = {}
+        hash.each{|k,v| new_hash[k.to_sym] = v}
+        new_hash
       end
     
     end
