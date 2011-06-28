@@ -6,7 +6,7 @@ module VinExploder
     
     attr_reader :vin, :success, :errors, :make, :model, :year, :driveline, :body_style, :fuel_type, :number_of_doors, :all
     
-    def initialize(vin, vin_hash, errors={})
+    def initialize(vin, vin_hash, errors=[])
       @vin = vin
       @all = vin_hash
       @make = @all[:make]
