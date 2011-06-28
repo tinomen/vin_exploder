@@ -20,10 +20,11 @@ module VinExploder
     # An Explosion object containing the decoded vin attributes
     def get(vin)
       hash = @cache.fetch(vin) do
-        # get from vender adapter
         @adapter.explode(vin)
       end
-      Explosion.new vin, hash, hash.delete(:errors)
+      errors = hash ? hash.delete(:errors) : []
+      data = hash ? hash : {}
+      Explosion.new vin, data, errors
     end
     
   end

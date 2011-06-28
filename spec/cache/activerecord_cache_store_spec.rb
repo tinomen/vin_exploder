@@ -25,7 +25,7 @@ describe ActiveRecordCacheStore do
       create_table :test_ar_cache_stores, :force => true do |t|
         t.column :key,       :string
         t.column :vin,       :string
-        t.column :make,       :string
+        t.column :make,      :string
         t.column :data,      :text
       end
     end

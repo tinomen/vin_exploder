@@ -16,7 +16,7 @@ module VinExploder
       if args.empty?
         case @cache_store
         when Symbol
-          VinExploder::Cache.const_get(@cache_store.to_s.split('_').map{|s| s.capitalize }.join)
+          @cache_store = VinExploder::Cache.const_get(@cache_store.to_s.split('_').map{|s| s.capitalize }.join)
         else
           @cache_store
         end
@@ -30,7 +30,7 @@ module VinExploder
       if args.empty?
         case @adapter
         when Symbol
-          VinExploder::Decode.const_get(@adapter.to_s.split('_').map{|s| s.capitalize }.join)
+          @adapter = VinExploder::Decode.const_get(@adapter.to_s.split('_').map{|s| s.capitalize }.join)
         else
           @adapter
         end
