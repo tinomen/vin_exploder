@@ -19,9 +19,8 @@ module Cache
     def read(vin)
       key = make_vin_cache_key(vin)
       result = @db.get(key)['data'] rescue nil
-      hash = {}
-      result.each{|k,v| hash[k.to_sym] = v} unless result.nil?
-      hash.empty? ? nil : hash
+      hash = symbolize_result_hash(result) unless result.nil?
+      hash
     end
     
     def write(vin, hash)
