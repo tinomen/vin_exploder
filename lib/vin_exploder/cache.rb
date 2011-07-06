@@ -37,7 +37,7 @@ module VinExploder
         if block_given?
           if hash.nil?
             hash = yield 
-            write(vin, hash) unless hash.empty? || (hash[:errors] && !hash[:errors].empty?)
+            cachewrite(vin, hash) unless hash.empty? || (hash[:errors] && !hash[:errors].empty?)
           end
         end
         hash
