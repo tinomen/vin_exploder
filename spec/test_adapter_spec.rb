@@ -22,6 +22,7 @@ describe TestAdapter do
     hash[:make].should == 'Chevrolet'
     hash[:model].should == 'Classic'
     hash[:fuel_type].should == 'Gas'
+    hash[:vin].should == '1G1ND52F14M587843'
   end
   
   it "should return checksum error for vin 12345678912345678" do
