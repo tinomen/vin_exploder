@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'vin_exploder'
-
-class VinExploder::Decode::TestAdapter; end
+require 'vin_exploder/test_adapter'
 
 module VinExploder
 
@@ -37,10 +36,6 @@ describe Exploder do
   
   describe "VinExploder#explode" do
     it "should return an Explosion object" do
-      ta = VinExploder::Decode::TestAdapter.new
-      ta.should_receive(:explode) { {} }
-      VinExploder::Decode::TestAdapter.should_receive(:new){ ta }
-      
       VinExploder.config.adapter :test_adapter
       VinExploder.explode("VIN").class.should == Explosion
     end
