@@ -14,7 +14,7 @@ describe TestAdapter do
     hash = @adapter.explode '3D7LU38C83G854645'
     hash[:make].should == 'Dodge'
     hash[:model].should == 'Ram 3500'
-    hash[:fuel_type].should == 'Desiel'
+    hash[:fuel_type].should == 'Diesel'
   end
   
   it "should return Chevrolet Classic for vin 1G1ND52F14M587843" do
