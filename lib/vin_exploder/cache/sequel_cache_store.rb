@@ -1,5 +1,5 @@
 require 'sequel'
-require 'Base64'
+require 'base64'
 
 module VinExploder
 module Cache
