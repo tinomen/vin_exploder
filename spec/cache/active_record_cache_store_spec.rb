@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'sqlite3'
 require 'vin_exploder/cache'
-require 'vin_exploder/cache/activerecord_cache_store'
+require 'vin_exploder/cache/active_record_cache_store'
 
 module VinExploder
 module Cache
