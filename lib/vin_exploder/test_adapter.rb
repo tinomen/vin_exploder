@@ -27,9 +27,9 @@ module VinExploder
           when '1G1ND52F14M587843'
             { :vin => '1G1ND52F14M587843', :vin_key => '1G1ND52F4M', :make => 'Chevrolet', :model => 'Classic', :year => '2004', :trim_level => 'Fleet', :fuel_type => 'Gas', :engine_type => '2.2L L4 DOHC', :has_turbo => 'false', :num_cylinders => '4', :number_of_doors => '4', :manufactured_in => 'UNITED STATES', :production_seq_number => '587843', :driveline => 'FWD', :body_style => "SEDAN 4-DR", :gvwr_class => 'D', :vehicle_type => 'PASSENGER', :"anti-brake_system" => '4-Wheel ABS' }
           when '12345678912345678'
-            { :errors => [{'5' => 'Invalid VIN number: This VIN number did not pass checksum test.'}] }
+            { :errors => [{'3' => 'Invalid VIN number: This VIN number did not pass checksum test.'}] }
           when /[IOQ]/
-            { :errors => [{'3' => "Invalid VIN number: This VIN number contains invalid letters: I,O or Q."}] }
+            { :errors => [{'5' => "Invalid VIN number: This VIN number contains invalid letters: I,O or Q."}] }
           else
             { :errors => [{'0' => "VIN not found"}] }
         end
