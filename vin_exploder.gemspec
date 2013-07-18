@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = "A caching client for vin decoding web services. The caching allows the consumer to avoid the cost of secondary lookups."
   s.homepage    = "http://github.com/tinomen/vin_exploder"
 
-  s.authors = ["Jake Mallory"]
+  s.authors = ["Jake Mallory, Scott Nielsen"]
   s.email   = "tinomen@gmail.com"
   s.files   = FileList["lib/**/*.rb", "[A-Z]*", "spec/**/*"].to_a
 
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new("1.2.0") then
+      s.add_development_dependency "rake"
       s.add_development_dependency "rspec", [">= 2.11.1"]
       s.add_development_dependency "simplecov"
       s.add_development_dependency "sequel"
