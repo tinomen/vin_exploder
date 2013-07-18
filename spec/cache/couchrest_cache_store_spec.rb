@@ -6,50 +6,47 @@ module VinExploder
 module Cache
 
 describe CouchrestCacheStore do
+  let(:db_name) { 'vindecoder_test' }
+  let(:options) { {:host => 'http://localhost:5984', :db_name => db_name} }
+  let(:store) { CouchrestCacheStore.new options }
+  let(:vin) { '3D7LU38C83G854645' }
+  let(:doc) { {:vin => vin, :make => 'Ford' } }
+
   before(:each) do
-    db_config = {:host => 'http://127.0.0.1:5984', :db_name => 'vindecoder_test'}
-    srv = CouchRest.new db_config[:host]
-    @db = srv.database(db_config[:db_name])
-    @db.delete! if @db rescue nil
-    
-    @store = CouchrestCacheStore.new(db_config)
+    srv = CouchRest.new options[:host]
+    db = srv.database(options[:db_name])
+    db.delete! if db rescue nil
   end
-  
+
   it "should initialize" do
-    @store.class.should == CouchrestCacheStore
+    store.class.should == CouchrestCacheStore
   end
-  
+
   it "should read and write a hash" do
-    vin = '3D7LU38C83G854645'
-    hash = @store.read(vin)
-    hash.should be_nil
-    @store.write(vin, {:vin => vin, :make => 'Ford'})
-    hash = @store.read(vin)
-    hash.should_not be_nil
-    hash[:make].should == 'Ford'
+    store.read(vin).should be_nil
+    store.write(vin, doc)
+    store.read(vin).should == doc
   end
-  
-  it "should fetch and cache new vins" do
-    hash = @store.fetch(:fake_vin_number) do
-      {:vin => 'fake_vin_number', :make => 'Ford'}
-    end
-    hash2 = @store.read(:fake_vin_number)
-    hash[:vin].should == hash2[:vin]
-  end
-  
+
   it "should delete a vin from the cache" do
-    hash = @store.read(:fake_vin_number)
-    hash.should be_nil
-    @store.write(:fake_vin_number, {:vin => 'fake_vin_number', :make => 'Ford'})
-    hash = @store.read(:fake_vin_number)
-    hash.should_not be_nil
-    hash[:make].should == 'Ford'
-    deleted = @store.delete(:fake_vin_number)
-    deleted.should == true
-    hash = @store.read(:fake_vin_number)
-    hash.should be_nil
+    store.write(vin, doc)
+    store.read(vin).should == doc
+    store.delete(vin).should be_true
+    store.read(vin).should be_nil
   end
-  
+
+  it "should use the value provided by the block if the vin is not in the cache" do
+    store.read(vin).should be_nil
+    store.fetch(vin) { doc }
+    store.read(vin).should == doc
+  end
+
+  it "should not yield to the block if the vin is already in the cache" do
+    store.write(vin, doc)
+    expect{|b|
+      store.fetch(vin, &b)
+    }.not_to yield_control
+  end
 end
 
 end
