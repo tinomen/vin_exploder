@@ -36,7 +36,7 @@ module VinExploder
         hash = read(vin)
         if block_given?
           if hash.nil?
-            hash = yield 
+            hash = yield
             # adapter should raise exception on error but in case it doesn't don't write to cache
             write(vin, hash) unless hash.empty? || (hash[:errors] && !hash[:errors].empty?)
           end

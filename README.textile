@@ -1,6 +1,8 @@
 h1. VinExploder
 
 A ruby library for retrieving and caching Vehicle Identification Number (VIN) lookups. 
+!https://badge.fury.io/rb/vin_exploder.png!:http://badge.fury.io/rb/vin_exploder
+!https://travis-ci.org/tinomen/vin_exploder.png?branch=master!:https://travis-ci.org/tinomen/vin_exploder
 
 h2. How to install
 

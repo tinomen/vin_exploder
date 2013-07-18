@@ -20,10 +20,10 @@ Gem::Specification.new do |s|
   s.rdoc_options     << "--title"        << s.summary <<
                         "--main"         << "README.textile" <<
                         "--line-numbers" << "--charset=UTF-8"
-  
+
   s.required_rubygems_version = ">= 1.3.6"
   s.require_path = 'lib'
-  
+
   # Test settings
   s.test_files = FileList["spec/**/*"].to_a
 
@@ -38,11 +38,11 @@ Gem::Specification.new do |s|
       s.add_development_dependency "sqlite3"
       s.add_development_dependency "couchrest"
       s.add_development_dependency "activerecord", [">= 3.0.0"]
-      
+      s.add_development_dependency "em-synchrony-couchdb", ["0.1.1"]
     else
-      
+
     end
   else
-    
+
   end
 end
