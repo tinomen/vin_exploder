@@ -5,7 +5,7 @@ require 'vin_exploder/cache/couchrest_cache_store'
 module VinExploder
 module Cache
 
-describe CouchrestCacheStore do
+describe CouchrestCacheStore, :couchdb_required => true do
   let(:db_name) { 'vindecoder_test' }
   let(:options) { {:host => 'http://localhost:5984', :db_name => db_name} }
   let(:store) { CouchrestCacheStore.new options }

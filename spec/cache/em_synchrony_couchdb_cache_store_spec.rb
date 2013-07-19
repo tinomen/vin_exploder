@@ -4,7 +4,7 @@ require 'vin_exploder/cache/em_synchrony_couchdb_cache_store'
 module VinExploder
 module Cache
 
-describe EMSynchronyCouchDBCacheStore do
+describe EMSynchronyCouchDBCacheStore, :couchdb_required => true  do
   let(:db_name) { 'vindecoder_test' }
   let(:options) { {:host => 'localhost', :port => 5984, :db_name => db_name} }
   let(:store) { EMSynchronyCouchDBCacheStore.new options }
