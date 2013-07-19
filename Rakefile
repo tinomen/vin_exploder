@@ -8,4 +8,10 @@ RSpec::Core::RakeTask.new(:travis) do |t|
   t.rspec_opts = "--tag ~couchdb"
 end
 
-task :default => :spec
+task :default do
+  if ENV['TRAVIS']
+    Rake::Task[:travis].invoke
+  else
+    Rake::Task[:spec].invoke
+  end
+end
