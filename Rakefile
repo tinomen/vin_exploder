@@ -4,8 +4,8 @@ require 'rspec/core/rake_task'
 
 RSpec::Core::RakeTask.new(:spec)
 
-RSpec.configure do |c|
-  c.filter_run_excluding :couchdb => true
+RSpec::Core::RakeTask.new(:travis) do |t|
+  t.rspec_opts = "--tag ~couchdb"
 end
 
 task :default => :spec
