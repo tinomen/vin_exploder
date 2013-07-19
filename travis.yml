@@ -2,11 +2,11 @@ language: ruby
 rvm:
   - 1.9.3
 
+script: "rake travis"
+
 services:
   - sqlite3     # will start riak
   - couchdb # will start rabbitmq-server
 
 before_script:
   - curl -X PUT localhost:5984/vindecoder_test
-
-script: "rake travis"
