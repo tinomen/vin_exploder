@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - 1.9.3
 
-script: "rake travis"
+script: rake travis
 
 services:
   - sqlite3     # will start riak
