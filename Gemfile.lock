@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vin_exploder (0.5.1)
+    vin_exploder (0.6)
 
 GEM
   remote: https://rubygems.org/
