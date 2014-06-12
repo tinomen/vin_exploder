@@ -1,7 +1,7 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 if ENV["COVERAGE"]
-  require 'simplecov'  
-  SimpleCov.start 'rails' 
+  require 'simplecov'
+  SimpleCov.start
 end
 
 require "bundler"
