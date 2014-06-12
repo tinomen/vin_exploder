@@ -30,7 +30,7 @@ module VinExploder
         adapter = BadAdapter.new
         config  = Configuration.new
 
-        ->{ config.add_adapter(adapter) }.should raise_error(NotImplementedError)
+         expect { config.add_adapter(adapter) }.to raise_error(NotImplementedError)
       end
 
       it 'should add an adapter' do

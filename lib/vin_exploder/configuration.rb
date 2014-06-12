@@ -1,17 +1,15 @@
-
 module VinExploder
-  
+
   class Configuration
-    
-    attr_accessor :cache_options, :adapter_options
-    
+    attr_accessor :cache_options
+    attr_reader :adapters
+
     def initialize
       @cache_store = nil
       @cache_options = {}
-      @adapter = nil
-      @adapter_options = {}
+      @adapters = []
     end
-    
+
     def cache_store(*args)
       if args.empty?
         case @cache_store
@@ -25,21 +23,11 @@ module VinExploder
         @cache_options = args.shift || {}
       end
     end
-    
-    def adapter(*args)
-      if args.empty?
-        case @adapter
-        when Symbol
-          @adapter = VinExploder::Decode.const_get(@adapter.to_s.split('_').map{|s| s.capitalize }.join)
-        else
-          @adapter
-        end
-      else
-        @adapter = args.shift
-        @adapter_options = args.shift || {}
-      end
+
+    def add_adapter(adapter)
+      raise NotImplementedError.new("unimplemented explode method") unless adapter.respond_to?(:explode)
+      @adapters << adapter
     end
-    
   end
-  
+
 end
