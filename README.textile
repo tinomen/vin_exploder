@@ -1,8 +1,6 @@
 h1. VinExploder
 
-!https://badge.fury.io/rb/vin_exploder.png!:http://badge.fury.io/rb/vin_exploder !https://travis-ci.org/tinomen/vin_exploder.png?branch=master!:https://travis-ci.org/tinomen/vin_exploder !https://codeclimate.com/github/tinomen/vin_exploder.png!:https://codeclimate.com/github/tinomen/vin_exploder
-
-A ruby library for retrieving and caching Vehicle Identification Number (VIN) lookups. 
+A ruby library for retrieving and caching Vehicle Identification Number (VIN) lookups.
 
 h2. How to install
 
@@ -26,12 +24,12 @@ Using the vin exploder will require a decoding service adapter. Thankfully one i
   require 'vin_exploder'
   # require the Vinquery.com adapter
   require 'vinquery/vin_exploder/adapter'
-  
+
   # tell vin_exploder to use the Vinquery.com adapter and pass it's required config
   VinExploder.config.adapter :vinquery, {:url => 'VINQUERY_URL', :access_code => 'ACCESS_CODE', :report_type => 'REPORT_TYPE'}
   # request the decoded VIN data
   vin_explosion = VinExploder.get('1FTWX31R19EB18840')
-  
+
   vin_explosion.valid? # true
   vin_explosion.make   # Ford
 </pre>
@@ -43,7 +41,7 @@ Create an initializer for the config
 <pre>
   require 'vin_exploder'
   require 'vinquery/vin_exploder/adapter'
-  
+
   VinExploder.config.adapter :vinquery, {:url => 'VINQUERY_URL', :access_code => 'ACCESS_CODE', :report_type => 'REPORT_TYPE'}
 </pre>
 
@@ -57,19 +55,19 @@ To save on the cost of looking up a VIN multiple times setup a cache
   require 'vin_exploder/cache/sequel_cache_store'
   # require the Vinquery.com adapter
   require 'vinquery/vin_exploder/adapter'
-  
+
   # tell vin_exploder to use the Sequel based cache store adapter and pass in the connection config
   VinExploder.config.cache_store :sequel_cache_store, "mysql://localhost:3896/vin_cache"
-  
+
   # tell vin_exploder to use the Vinquery.com adapter and pass it's required config
   VinExploder.config.adapter :vinquery, {:url => 'VINQUERY_URL', :access_code => 'ACCESS_CODE', :report_type => 'REPORT_TYPE'}
-  
+
   # request the decoded VIN data
   vin_explosion = VinExploder.get('1FTWX31R19EB18840')
-  
+
   vin_explosion.valid? #=> true
   vin_explosion.make   #=> Ford
-  
+
   # decoded VIN data is retrieved from cache
   vin_explosion2 = VinExploder.get('1FTWX31R19EB18840')
   vin_explosion2.make   #=> Ford
