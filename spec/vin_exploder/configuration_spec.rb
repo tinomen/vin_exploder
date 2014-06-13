@@ -3,41 +3,45 @@ require 'vin_exploder/configuration'
 
 module VinExploder
   describe Configuration do
-
-    describe '#cache_store' do
-      it 'should return nil if no cache is set' do
-        c = Configuration.new
-        c.cache_store.should == nil
+    class BadCache; end
+    class GoodCache
+      def fetch(vin)
+        {}
       end
-
-      it 'should convert a symbol to a camel case constant within the VinExploder::Cache scope' do
-        class VinExploder::Cache::TestSymbolConst; end
-        c = Configuration.new
-        c.cache_store :test_symbol_const
-        c.cache_store.should == VinExploder::Cache::TestSymbolConst
-      end
-
-      it 'should return the constant previously set' do
-        c = Configuration.new
-        c.cache_store String
-        c.cache_store.should == String
+    end
+    class BadAdapter; end
+    class GoodAdapter
+      def explode(vin)
+        {}
       end
     end
 
-    describe '#add_adapter' do
+    describe "#set_cache" do
+      it "should raise an error if the cache doesn't provide a 'fetch' method" do
+        cache  = BadCache.new
+        config = Configuration.new
+
+        expect { config.set_cache(cache) }.to raise_error(NotImplementedError)
+      end
+
+      it "should set the cache" do
+        cache  = GoodCache.new
+        config = Configuration.new
+        config.set_cache(cache)
+
+        config.cache.should == cache
+      end
+    end
+
+    describe "#add_adapter" do
       it "should raise an error if the adapter doesn't provide an 'explode' interface" do
-        class BadAdapter; end
         adapter = BadAdapter.new
         config  = Configuration.new
 
          expect { config.add_adapter(adapter) }.to raise_error(NotImplementedError)
       end
 
-      it 'should add an adapter' do
-        class GoodAdapter
-          def explode
-          end
-        end
+      it "should add an adapter" do
         adapter = GoodAdapter.new
         config  = Configuration.new
         count   = config.adapters.count
