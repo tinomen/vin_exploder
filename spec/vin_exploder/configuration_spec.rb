@@ -1,31 +1,49 @@
 require 'spec_helper'
+require 'ostruct'
 require 'vin_exploder/configuration'
 
 module VinExploder
   describe Configuration do
-    class BadCache; end
-    class GoodCache
-      def fetch(vin)
-        {}
-      end
-    end
-    class BadAdapter; end
-    class GoodAdapter
-      def explode(vin)
-        {}
-      end
-    end
 
     describe "#set_cache" do
+      before(:each) do
+        @required_methods = {fetch: {}, read: {}, write: {}, delete: {}}
+      end
+
       it "should raise an error if the cache doesn't provide a 'fetch' method" do
-        cache  = BadCache.new
+        @required_methods.delete(:fetch)
+        cache  = OpenStruct.new(@required_methods)
+        config = Configuration.new
+
+        expect { config.set_cache(cache) }.to raise_error(NotImplementedError)
+      end
+
+      it "should raise an error if the cache doesn't provide a 'read' method" do
+        @required_methods.delete(:read)
+        cache  = OpenStruct.new(@required_methods)
+        config = Configuration.new
+
+        expect { config.set_cache(cache) }.to raise_error(NotImplementedError)
+      end
+
+      it "should raise an error if the cache doesn't provide a 'write' method" do
+        @required_methods.delete(:write)
+        cache  = OpenStruct.new(@required_methods)
+        config = Configuration.new
+
+        expect { config.set_cache(cache) }.to raise_error(NotImplementedError)
+      end
+
+      it "should raise an error if the cache doesn't provide a 'delete' method" do
+        @required_methods.delete(:delete)
+        cache  = OpenStruct.new(@required_methods)
         config = Configuration.new
 
         expect { config.set_cache(cache) }.to raise_error(NotImplementedError)
       end
 
       it "should set the cache" do
-        cache  = GoodCache.new
+        cache  = OpenStruct.new(@required_methods)
         config = Configuration.new
         config.set_cache(cache)
 
@@ -35,14 +53,14 @@ module VinExploder
 
     describe "#add_adapter" do
       it "should raise an error if the adapter doesn't provide an 'explode' interface" do
-        adapter = BadAdapter.new
+        adapter = OpenStruct.new
         config  = Configuration.new
 
          expect { config.add_adapter(adapter) }.to raise_error(NotImplementedError)
       end
 
       it "should add an adapter" do
-        adapter = GoodAdapter.new
+        adapter = OpenStruct.new(explode: {})
         config  = Configuration.new
         count   = config.adapters.count
         config.add_adapter adapter

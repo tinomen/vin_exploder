@@ -10,6 +10,10 @@ module VinExploder
 
     def set_cache(cache)
       raise NotImplementedError.new("cache should implement 'fetch' method") unless cache.respond_to?(:fetch)
+      raise NotImplementedError.new("cache should implement 'read' method") unless cache.respond_to?(:read)
+      raise NotImplementedError.new("cache should implement 'write' method") unless cache.respond_to?(:write)
+      raise NotImplementedError.new("cache should implement 'delete' method") unless cache.respond_to?(:delete)
+
       @cache = cache
     end
 
