@@ -1,7 +1,6 @@
 require 'em-synchrony/couchdb'
 
-module VinExploder
-module Cache
+module VinExploder::Cache
 
   class EMSynchronyCouchDBCacheStore < Store
     def initialize(options={})
@@ -32,5 +31,4 @@ module Cache
     end
   end
 
-end
 end

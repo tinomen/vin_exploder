@@ -1,45 +1,30 @@
-
 module VinExploder
-  
+
   class Configuration
-    
-    attr_accessor :cache_options, :adapter_options
-    
+    attr_reader :adapters, :cache
+
     def initialize
-      @cache_store = nil
-      @cache_options = {}
-      @adapter = nil
-      @adapter_options = {}
+      @cache    = nil
+      @adapters = []
     end
-    
-    def cache_store(*args)
-      if args.empty?
-        case @cache_store
-        when Symbol
-          @cache_store = VinExploder::Cache.const_get(@cache_store.to_s.split('_').map{|s| s.capitalize }.join)
-        else
-          @cache_store
-        end
-      else
-        @cache_store = args.shift
-        @cache_options = args.shift || {}
-      end
+
+    def set_cache(cache)
+      raise NotImplementedError.new("cache should implement 'fetch' method") unless cache.respond_to?(:fetch)
+      raise NotImplementedError.new("cache should implement 'read' method") unless cache.respond_to?(:read)
+      raise NotImplementedError.new("cache should implement 'write' method") unless cache.respond_to?(:write)
+      raise NotImplementedError.new("cache should implement 'delete' method") unless cache.respond_to?(:delete)
+
+      @cache = cache
     end
-    
-    def adapter(*args)
-      if args.empty?
-        case @adapter
-        when Symbol
-          @adapter = VinExploder::Decode.const_get(@adapter.to_s.split('_').map{|s| s.capitalize }.join)
-        else
-          @adapter
-        end
-      else
-        @adapter = args.shift
-        @adapter_options = args.shift || {}
-      end
+
+    def add_adapter(adapter)
+      raise NotImplementedError.new("adapter should impement 'explode' method") unless adapter.respond_to?(:explode)
+      @adapters << adapter
     end
-    
+
+    def clear_adapters
+      @adapters.clear
+    end
   end
-  
+
 end

@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = "A caching client for vin decoding web services. The caching allows the consumer to avoid the cost of secondary lookups."
   s.homepage    = "http://github.com/tinomen/vin_exploder"
 
-  s.authors = ["Jake Mallory, Scott Nielsen"]
+  s.authors = ["Jake Mallory, Scott Nielsen, Tad Thorley"]
   s.email   = "tinomen@gmail.com"
   s.files   = FileList["lib/**/*.rb", "[A-Z]*", "spec/**/*"].to_a
 

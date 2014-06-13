@@ -1,46 +1,60 @@
 require 'spec_helper'
 require 'vin_exploder'
-require 'vin_exploder/test_adapter'
 
-module VinExploder
-
-describe Exploder do
-  
-  describe '#new' do
-    it "should raise a MissingAdapter error if nil is provided to initialize" do
-      expect { Exploder.new(nil) }.to raise_error(MissingAdapter)
-    end
-  
-    it "should raise a ArgumentError error if no arguments are provided to initialize" do
-      expect { Exploder.new }.to raise_error(ArgumentError)
-    end
-  
-    it "should initialize with a default cache store when no cache argument is passed" do
-      s = VinExploder::Cache::Store.new
-      VinExploder::Cache::Store.should_receive(:new).exactly(1).times { s }
-      e = Exploder.new(double("Adapter"))
+describe VinExploder do
+  class SimpleAdapter
+    def explode(vin)
+      if vin == 'GOODVIN'
+        {make: 'Ford', model: 'Mustang'}
+      else
+        {errors: ["This is a bad VIN"]}
+      end
     end
   end
-  
-  describe '#get' do
-    it "should get a vin Explosion" do
-      a = double("Adapter")
-      a.should_receive(:explode) { {} }
-      e = Exploder.new(a)
-      ex = e.get('VIN')
-      ex.class.should == VinExploder::Explosion 
-      ex.valid?.should == true
-      ex.success?.should == true
-    end
-  end
-  
-  describe "VinExploder#explode" do
-    it "should return an Explosion object" do
-      VinExploder.config.adapter :test_adapter
-      VinExploder.explode("VIN").class.should == Explosion
-    end
-  end
-  
-end
 
+  class SimpleCache < VinExploder::Cache::Store
+    def read(vin)
+      @cache ||= {}
+      @cache[vin]
+    end
+    def write(vin, hash)
+      @cache ||= {}
+      @cache[vin] = hash
+    end
+  end
+
+  describe ".config" do
+    it "should return a configuration object" do
+      VinExploder.config.class.should == VinExploder::Configuration
+    end
+  end
+
+  describe ".explode" do
+    it "should return an explosion object" do
+      VinExploder.config.clear_adapters
+      VinExploder.config.add_adapter(SimpleAdapter.new)
+      VinExploder.config.set_cache(SimpleCache.new)
+
+      explosion = VinExploder.explode('GOODVIN')
+      explosion.class.should == VinExploder::Explosion
+    end
+
+    it "should return valid data for a good VIN" do
+      VinExploder.config.clear_adapters
+      VinExploder.config.add_adapter(SimpleAdapter.new)
+      VinExploder.config.set_cache(SimpleCache.new)
+
+      explosion = VinExploder.explode('GOODVIN')
+      explosion.make.should == 'Ford'
+    end
+
+    it "should return a error for a bad VIN" do
+      VinExploder.config.clear_adapters
+      VinExploder.config.set_cache(SimpleCache.new)
+      VinExploder.config.add_adapter(SimpleAdapter.new)
+
+      explosion = VinExploder.explode('BADVIN')
+      explosion.errors.include?("This is a bad VIN").should be_true
+    end
+  end
 end
