@@ -21,6 +21,10 @@ module VinExploder
       raise NotImplementedError.new("adapter should impement 'explode' method") unless adapter.respond_to?(:explode)
       @adapters << adapter
     end
+
+    def clear_adapters
+      @adapters.clear
+    end
   end
 
 end

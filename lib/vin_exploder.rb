@@ -9,11 +9,7 @@ module VinExploder
   end
 
   def self.explode(vin)
-    @@exploder ||= nil
-    if @@exploder.nil?
-      cache = config.cache_store ? config.cache_store.new(config.cache_options) : nil
-    end
-    @@exploder ||= Exploder.new(config.adapters, cache)
-    explosion = @@exploder.get(vin)
+    @@exploder ||= Exploder.new(config.adapters, config.cache)
+    @@exploder.get(vin)
   end
 end

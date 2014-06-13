@@ -68,5 +68,19 @@ module VinExploder
         (count + 1 == config.adapters.count).should be_true
       end
     end
+
+    describe "#clear_adapters" do
+      it "should remove all added adapters" do
+        adapter1 = OpenStruct.new(explode: {})
+        adapter2 = OpenStruct.new(explode: {})
+        config  = Configuration.new
+
+        config.add_adapter(adapter1)
+        config.add_adapter(adapter2)
+        config.clear_adapters
+
+        config.adapters.should be_empty
+      end
+    end
   end
 end
